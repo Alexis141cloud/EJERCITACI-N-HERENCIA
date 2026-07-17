@@ -1,0 +1,52 @@
+from datetime import date
+
+class Producto:
+    def __init__(self, nombre, precio, fechaVencimiento):
+        self.nombre = nombre
+        self.precio = precio
+        self.fechaVencimiento = fechaVencimiento  # objeto date
+    
+    def imprimir_detalles(self):
+        print(f"Producto: {self.nombre}")
+        print(f"Precio: ${self.precio:.2f}")
+        print(f"Fecha de vencimiento: {self.fechaVencimiento}")
+
+class ProductoAlimenticio(Producto):
+    def __init__(self, nombre, precio, fechaVencimiento):
+        super().__init__(nombre, precio, fechaVencimiento)
+    
+    def aplicar_descuento(self):
+        diasRestantes = (self.fechaVencimiento - date.today()).days
+        if diasRestantes <= 5:
+            descuento = self.precio * 0.5
+        elif diasRestantes <= 15:
+            descuento = self.precio * 0.2
+        else:
+            descuento = 0
+        return self.precio - descuento
+    
+    def imprimir_detalles(self):
+        super().imprimir_detalles()
+        print(f"Precio con descuento: ${self.aplicar_descuento():.2f}")
+
+class ProductoElectronico(Producto):
+    def __init__(self, nombre, precio, fechaVencimiento, garantiaMeses):
+        super().__init__(nombre, precio, fechaVencimiento)
+        self.garantiaMeses = garantiaMeses
+    
+    def aplicar_descuento(self):
+        descuento = self.precio * 0.10
+        return self.precio - descuento
+    
+    def imprimir_detalles(self):
+        super().imprimir_detalles()
+        print(f"Garantía: {self.garantiaMeses} meses")
+        print(f"Precio con descuento: ${self.aplicar_descuento():.2f}")
+
+if __name__ == "__main__":
+    leche = ProductoAlimenticio("Leche", 2.50, date(2026, 7, 20))
+    leche.imprimir_detalles()
+    print()
+
+    tv = ProductoElectronico("Televisor", 500, date(2030, 1, 1), 12)
+    tv.imprimir_detalles()
