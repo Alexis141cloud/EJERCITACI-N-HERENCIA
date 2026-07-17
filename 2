@@ -1,0 +1,53 @@
+class Empleado:
+    def __init__(self, nombre, salario, cargo):
+        self.nombre = nombre
+        self.salario = salario
+        self.cargo = cargo
+    
+    def imprimir_detalles(self):
+        print(f"Nombre: {self.nombre}")
+        print(f"Cargo: {self.cargo}")
+        print(f"Salario: ${self.salario:.2f}")
+
+class Gerente(Empleado):
+    def __init__(self, nombre, salario, bonoDesempeno):
+        super().__init__(nombre, salario, "Gerente")
+        self.bonoDesempeno = bonoDesempeno
+    
+    def calcular_aumento(self):
+        aumento = self.salario * (self.bonoDesempeno / 100)
+        self.salario += aumento
+        return aumento
+    
+    def imprimir_detalles(self):
+        super().imprimir_detalles()
+        print(f"Bono de desempeño: {self.bonoDesempeno}%")
+
+class EmpleadoTemporal(Empleado):
+    def __init__(self, nombre, salario, mesesContrato):
+        super().__init__(nombre, salario, "Empleado Temporal")
+        self.mesesContrato = mesesContrato
+    
+    def calcular_aumento(self):
+        if self.mesesContrato >= 12:
+            aumento = self.salario * 0.05
+        else:
+            aumento = self.salario * 0.02
+        self.salario += aumento
+        return aumento
+    
+    def imprimir_detalles(self):
+        super().imprimir_detalles()
+        print(f"Meses de contrato: {self.mesesContrato}")
+
+if __name__ == "__main__":
+    g = Gerente("Laura", 5000, 10)
+    aumento_g = g.calcular_aumento()
+    g.imprimir_detalles()
+    print(f"Aumento aplicado: ${aumento_g:.2f}")
+    print()
+
+    e = EmpleadoTemporal("Pedro", 2000, 6)
+    aumento_e = e.calcular_aumento()
+    e.imprimir_detalles()
+    print(f"Aumento aplicado: ${aumento_e:.2f}")
